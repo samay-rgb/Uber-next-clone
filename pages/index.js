@@ -1,82 +1,80 @@
-import Head from 'next/head'
-
+import Head from "next/head";
+import tw from "tailwind-styled-components";
+import Map from "./components/Map";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { auth } from "../firebase";
+import { onAuthStateChanged, signOut } from "@firebase/auth";
+import { useRouter } from "next/router";
 export default function Home() {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    return onAuthStateChanged(auth, (user) => {
+      if (user)
+        setUser({
+          name: user.displayName,
+          photourl: user.photoURL,
+        });
+      else {
+        setUser(null);
+        router.push("/login");
+      }
+    });
+  }, []);
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Wrapper>
+      <Map />
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
-
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
-    </div>
-  )
+      <ActionItems>
+        <Header>
+          <Uberlogo src="https://i.ibb.co/84stgjq/uber-technologies-new-20218114.jpg" />
+          <Profile>
+            <Name>{user && user.name}</Name>
+            <UserImg
+              src={user && user.photourl}
+              onClick={() => signOut(auth)}
+              title="Log Out"
+            />
+          </Profile>
+        </Header>
+        <ActionBtns>
+          <Link href="/Search">
+            <ActionBtn>
+              <ActionBtnImg src="https://i.ibb.co/cyvcpfF/uberx.png" />
+              Ride
+            </ActionBtn>
+          </Link>
+          <ActionBtn>
+            <ActionBtnImg src="https://i.ibb.co/n776JLm/bike.png" />
+            Bikes
+          </ActionBtn>
+          <ActionBtn>
+            <ActionBtnImg src="https://i.ibb.co/5RjchBg/uberschedule.png" />
+            Reserve
+          </ActionBtn>
+        </ActionBtns>
+        <InputBtn>Enter destination</InputBtn>
+      </ActionItems>
+    </Wrapper>
+  );
 }
+const Wrapper = tw.div`
+  flex flex-col h-screen
+`;
+const Header = tw.div`
+flex justify-between items-center
+`;
+const ActionItems = tw.div`flex-1 p-4`;
+const Uberlogo = tw.img`
+h-28
+`;
+const Profile = tw.div`
+flex items-center
+`;
+const Name = tw.div` mr-4 w-20 text-sm`;
+const UserImg = tw.img`h-12 w-12 rounded-full border border-gray-200 p-px cursor-pointer`;
+const ActionBtns = tw.div`flex `;
+const ActionBtn = tw.div`flex bg-gray-200 flex-1 m-1 h-32 items-center flex-col justify-center rounded-lg transform hover:scale-105 transition text-xl cursor-pointer`;
+const ActionBtnImg = tw.img`h-3/5`;
+const InputBtn = tw.div`h-20 bg-gray-200 p-4 text-2xl flex items-center mt-8`;
