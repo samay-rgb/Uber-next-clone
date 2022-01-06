@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { carList } from "../data/carList";
-export default function RideSelector({ pickup, drop }) {
+import { bikeList } from "../data/bikeList";
+export default function RideSelector({ pickup, drop, flag }) {
   const [duration, setDuration] = useState();
   useEffect(() => {
     console.log(pickup + "\n");
@@ -17,20 +18,42 @@ export default function RideSelector({ pickup, drop }) {
   return (
     <Wrapper>
       <Title>Select your ride, swipe for more</Title>
-      <CarList>
-        {carList.map((item, idx) => {
-          return (
-            <Car key={idx}>
-              <CarImg src={item.imgUrl} />
-              <CarDetails>
-                <CarName>{item.service}</CarName>
-                <Time>5 mins away</Time>
-              </CarDetails>
-              <Price>$ {(duration * item.multiplier).toFixed(2)}</Price>
-            </Car>
-          );
-        })}
-      </CarList>
+      {flag == 1 ? (
+        <CarList>
+          {carList.map((item, idx) => {
+            return (
+              <Car key={idx}>
+                <CarImg src={item.imgUrl} />
+                <CarDetails>
+                  <CarName>{item.service}</CarName>
+                  <Time>5 mins away</Time>
+                </CarDetails>
+                <Price>$ {(duration * item.multiplier).toFixed(2)}</Price>
+              </Car>
+            );
+          })}
+        </CarList>
+      ) : (
+        <p></p>
+      )}
+      {flag == 0 ? (
+        <CarList>
+          {bikeList.map((item, idx) => {
+            return (
+              <Car key={idx}>
+                <CarImg src={item.imgUrl} />
+                <CarDetails>
+                  <CarName>{item.service}</CarName>
+                  <Time>5 mins away</Time>
+                </CarDetails>
+                <Price>$ {(duration * item.multiplier).toFixed(2)}</Price>
+              </Car>
+            );
+          })}
+        </CarList>
+      ) : (
+        <p></p>
+      )}
     </Wrapper>
   );
 }

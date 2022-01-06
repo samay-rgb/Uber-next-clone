@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import tw from "tailwind-styled-components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Search() {
+  const router = useRouter();
   const [pickupn, setPickupn] = useState("");
   const [dropn, setDropn] = useState("");
-
+  const { flag } = router.query;
   return (
     <Wrapper>
       <Link href="/">
@@ -43,6 +45,7 @@ export default function Search() {
           query: {
             pickupn: pickupn,
             dropn: dropn,
+            flag: flag,
           },
         }}
       >

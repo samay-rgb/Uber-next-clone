@@ -39,16 +39,32 @@ export default function Home() {
           </Profile>
         </Header>
         <ActionBtns>
-          <Link href="/Search">
+          <Link
+            href={{
+              pathname: "/Search",
+              query: {
+                flag: 1,
+              },
+            }}
+          >
             <ActionBtn>
               <ActionBtnImg src="https://i.ibb.co/cyvcpfF/uberx.png" />
               Ride
             </ActionBtn>
           </Link>
-          <ActionBtn>
-            <ActionBtnImg src="https://i.ibb.co/n776JLm/bike.png" />
-            Bikes
-          </ActionBtn>
+          <Link
+            href={{
+              pathname: "/Search",
+              query: {
+                flag: 0,
+              },
+            }}
+          >
+            <ActionBtn>
+              <ActionBtnImg src="https://i.ibb.co/n776JLm/bike.png" />
+              Bikes
+            </ActionBtn>
+          </Link>
           <ActionBtn>
             <ActionBtnImg src="https://i.ibb.co/5RjchBg/uberschedule.png" />
             Reserve

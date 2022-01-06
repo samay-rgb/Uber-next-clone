@@ -7,10 +7,11 @@ import Link from "next/link";
 
 export default function confirm() {
   const router = useRouter();
-  const { pickupn, dropn } = router.query;
+  const { pickupn, dropn, flag } = router.query;
   //   console.log(pickupn + " " + dropn);
   const [pickup, setPickup] = useState([0, 0]);
   const [drop, setDrop] = useState([0, 0]);
+  console.log(flag);
 
   const getCoordinates = (pickupn) => {
     // const location = "Patna";
@@ -51,7 +52,7 @@ export default function confirm() {
       </Link>
       <Map pickup={pickup} drop={drop} />
       <Rides>
-        <RideSelector pickup={pickup} drop={drop} />
+        <RideSelector pickup={pickup} drop={drop} flag={flag} />
         <ConfirmBtn>Book ride</ConfirmBtn>
       </Rides>
     </Wrapper>
