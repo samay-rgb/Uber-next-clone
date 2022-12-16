@@ -7,12 +7,12 @@ export default function RideSelector({ pickup, drop, flag }) {
   useEffect(() => {
     console.log(pickup + "\n");
     console.log(drop + "\n");
-    duration = fetch(
+    const val = fetch(
       `https://api.mapbox.com/directions/v5/mapbox/driving/${pickup[0]},${pickup[1]};${drop[0]},${drop[1]}?access_token=pk.eyJ1IjoiZGFydGhza3l3YWxrZXIiLCJhIjoiY2t3YXhjdXl0MG5pdTJ1cWxhaGgyN2g3cyJ9.rM-nEsb2PRzbBqlyObuLeQ`
     )
       .then((res) => res.json())
       .then((data) => {
-        if (data.routes) setDuration(data.routes[0].duration / 100);
+        if (data.routes) setDuration(data?.routes[0]?.duration / 100);
       });
   }, [pickup, drop]);
   return (

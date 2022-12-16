@@ -1,6 +1,6 @@
 import Head from "next/head";
 import tw from "tailwind-styled-components";
-import Map from "./components/Map";
+import Map from "../components/Map";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { auth } from "../firebase";
